@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Квест — Сундук Рейвенкло</title>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background: #001f4d;
+    }
+
+    /* Картинка на весь экран */
+    .bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("сундук четыре.png") no-repeat center center;
+        background-size: cover;
+        cursor: pointer;
+    }
+
+    /* затемнение + форма */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        width: 300px;
+        text-align: center;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Волшебный сундук с сюрпризом</h1>
+        
+        <div class="chest-container">
+            <div class="chest closed">
+                <div class="chest-body"></div>
+                <div class="chest-lid">
+                    <div class="chest-lock"></div>
+                </div>
+            </div>
+        </div>
+        
+        <p>Кликните на сундук, чтобы открыть его</p>
+        
+        <div class="modal" id="passwordModal">
+            <div class="modal-content">
+                <h2>Введите кодовую фразу</h2>
+                <div class="input-group">
+                    <input type="text" id="passwordInput" placeholder="Введите фразу здесь">
+                    <div class="error-message" id="errorMessage">Неверная кодовая фраза! Попробуйте снова.</div>
+                </div>
+                <div>
+                    <button id="submitBtn">Открыть сундук</button>
+                    <button id="closeBtn">Отмена</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="congratulations" id="congratulations">
+            <h2>Поздравляем!</h2>
+            <p>Вы успешно открыли волшебный сундук! Внутри вас ждал этот особенный подарок.</p>
+            <p>Пусть в вашей жизни будет много радостных моментов, верных друзей и счастливых событий. Желаем, чтобы каждый день приносил вам новые возможности и вдохновение!</p>
+            <p>Помните, что самые ценные сокровища - это не материальные богатства, а любовь близких, здоровье и внутренняя гармония.</p>
+            <div class="treasure">
+                <div class="coin"></div>
+                <div class="coin"></div>
+                <div class="coin"></div>
+            </div>
+            <p class="message">С наилучшими пожеланиями!</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chest = document.querySelector('.chest');
+            const passwordModal = document.getElementById('passwordModal');
+            const passwordInput = document.getElementById('passwordInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const congratulations = document.getElementById('congratulations');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Правильная кодовая фраза
+            const correctPassword = "счастливый2024";
+            
+            // Открытие модального окна при клике на сундук
+            chest.addEventListener('click', function() {
+                passwordModal.style.display = 'flex';
+                passwordInput.focus();
+            });
+            
+            // Закрытие модального окна
+            closeBtn.addEventListener('click', function() {
+                passwordModal.style.display = 'none';
+                passwordInput.value = '';
+                errorMessage.style.display = 'none';
+            });
+            
+            // Проверка пароля
+            submitBtn.addEventListener('click', checkPassword);
+            
+            // Проверка пароля при нажатии Enter
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+            
+            function checkPassword() {
+                if (passwordInput.value.toLowerCase() === correctPassword) {
+                    // Правильный пароль
+                    passwordModal.style.display = 'none';
+                    chest.classList.remove('closed');
+                    chest.classList.add('open');
+                    
+                    // Показываем поздравление через секунду
+                    setTimeout(function() {
+                        congratulations.style.display = 'block';
+                    }, 1000);
+                    
+                    passwordInput.value = '';
+                    errorMessage.style.display = 'none';
+                } else {
+                    // Неправильный пароль
+                    errorMessage.style.display = 'block';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
