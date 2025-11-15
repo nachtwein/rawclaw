@@ -1,0 +1,141 @@
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Segoe UI", sans-serif;
+        background: #001f4d;
+    }
+
+    .bg {
+        position: fixed;
+        inset: 0;
+        background: url("сундук четыре.png") no-repeat center center;
+        background-size: cover;
+        cursor: pointer;
+    }
+
+    /* затемнение + эффект размытия */
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        backdrop-filter: blur(6px);
+        background: rgba(0, 0, 0, 0.45);
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.4s ease forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* эстетичная карточка */
+    .form {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(12px);
+        padding: 30px 35px;
+        border-radius: 18px;
+        text-align: center;
+        color: white;
+        width: 330px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        animation: popIn 0.35s ease;
+    }
+
+    @keyframes popIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    h3 {
+        margin: 0 0 15px;
+        font-size: 22px;
+        letter-spacing: 1px;
+        font-weight: 300;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        margin-top: 10px;
+        background: rgba(255,255,255,0.85);
+    }
+
+    button {
+        margin-top: 18px;
+        padding: 12px 22px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: #6ea8ff;
+        color: #001f4d;
+        font-weight: 600;
+        transition: 0.2s;
+        width: 100%;
+    }
+
+    button:hover {
+        background: #91c0ff;
+        transform: translateY(-1px);
+    }
+
+    button:active {
+        transform: translateY(1px);
+    }
+</style>
+
+<!-- Фон -->
+<div class="bg" onclick="openForm()"></div>
+
+<!-- Модалка -->
+<div class="modal" id="modal">
+    <div class="form">
+        <h3>Введите ответ</h3>
+        <input type="text" id="answer" placeholder="Ваш ответ…">
+        <button onclick="checkAnswer()">Открыть</button>
+    </div>
+</div>
+
+<script>
+function openForm() {
+    document.getElementById("modal").style.display = "flex";
+}
+
+function checkAnswer() {
+    const correct = "орел";  // ← правильный ответ
+    const user = document.getElementById("answer").value.trim().toLowerCase();
+
+    if (user === correct) {
+        window.location.href = "congrats.html";
+    } else {
+        alert("Неверно, попробуйте снова!");
+    }
+}
+</script>
+function openForm() {
+    document.getElementById("modal").style.display = "flex";
+}
+
+function checkAnswer() {
+    const correct = "орел";  // ← тут меняешь правильный ответ
+    const user = document.getElementById("answer").value.trim().toLowerCase();
+
+    if (user === correct) {
+        window.location.href = "congrats.html"; // страница поздравления
+    } else {
+        alert("Неверно, попробуйте снова!");
+    }
+}
+</script>
+
+</body>
+</html>
