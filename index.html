@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Квест — Сундук Рейвенкло</title>
 <style>
     html, body {
@@ -15,12 +16,11 @@
     .bg {
         position: fixed;
         inset: 0;
-        background: url("https://i.ibb.co/B5nhGrj9/image.png") no-repeat center center;
+        background: url("сунд4.jpg") no-repeat center center;
         background-size: cover;
         cursor: pointer;
     }
 
-    /* затемнение + эффект размытия */
     .modal {
         display: none;
         position: fixed;
@@ -30,6 +30,8 @@
         justify-content: center;
         align-items: center;
         animation: fadeIn 0.4s ease forwards;
+        padding: 20px;
+        box-sizing: border-box;
     }
 
     @keyframes fadeIn {
@@ -37,18 +39,19 @@
         to { opacity: 1; }
     }
 
-    /* эстетичная карточка */
     .form {
         background: rgba(255, 255, 255, 0.15);
         border: 1px solid rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(12px);
-        padding: 30px 35px;
+        padding: 25px;
         border-radius: 18px;
         text-align: center;
         color: white;
-        width: 330px;
+        width: 100%;
+        max-width: 330px;
         box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         animation: popIn 0.35s ease;
+        box-sizing: border-box;
     }
 
     @keyframes popIn {
@@ -72,6 +75,7 @@
         font-size: 16px;
         margin-top: 10px;
         background: rgba(255,255,255,0.85);
+        box-sizing: border-box;
     }
 
     button {
@@ -96,12 +100,72 @@
     button:active {
         transform: translateY(1px);
     }
-</style>
 
-<!-- Фон -->
+    /* Мобильные стили */
+    @media (max-width: 768px) {
+        .form {
+            padding: 20px;
+            max-width: 280px;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 15px;
+        }
+
+        .modal {
+            padding: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .form {
+            padding: 18px;
+            max-width: 250px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+    }
+
+    /* Ландшафтная ориентация */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .modal {
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+        
+        .form {
+            max-width: 300px;
+        }
+    }
+</style>
+</head>
+<body>
+
 <div class="bg" onclick="openForm()"></div>
 
-<!-- Модалка -->
 <div class="modal" id="modal">
     <div class="form">
         <h3>Введите ответ</h3>
@@ -116,7 +180,7 @@ function openForm() {
 }
 
 function checkAnswer() {
-    const correct = "орел";  // ← правильный ответ
+    const correct = "орел";
     const user = document.getElementById("answer").value.trim().toLowerCase();
 
     if (user === correct) {
@@ -125,21 +189,20 @@ function checkAnswer() {
         alert("Неверно, попробуйте снова!");
     }
 }
-</script>
-function openForm() {
-    document.getElementById("modal").style.display = "flex";
-}
 
-function checkAnswer() {
-    const correct = "орел";  // ← тут меняешь правильный ответ
-    const user = document.getElementById("answer").value.trim().toLowerCase();
-
-    if (user === correct) {
-        window.location.href = "congrats.html"; // страница поздравления
-    } else {
-        alert("Неверно, попробуйте снова!");
+// Закрытие модалки по клику вне формы
+document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        this.style.display = 'none';
     }
-}
+});
+
+// Закрытие по Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.getElementById('modal').style.display = 'none';
+    }
+});
 </script>
 
 </body>
