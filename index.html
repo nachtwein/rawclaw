@@ -20,7 +20,22 @@
         background-size: cover;
         cursor: pointer;
     }
+/* Мобильная версия - портретная ориентация */
+@media (max-width: 768px) and (orientation: portrait) {
+    .bg {
+        background: 
+        url("моб2.jpg") no-repeat center center;  
+        background-size: cover;
+    }
+}
 
+/* Мобильная версия - ландшафтная ориентация */
+@media (max-width: 768px) and (orientation: landscape) {
+    .bg {
+        background: url("моб2.jpg") no-repeat center center;   
+        background-size: cover;
+    }
+}
     .modal {
         display: none;
         position: fixed;
