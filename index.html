@@ -11,6 +11,7 @@
         height: 100%;
         font-family: "Segoe UI", sans-serif;
         background: #003277;
+        overflow: hidden;
     }
 
     .bg {
@@ -21,22 +22,20 @@
         cursor: pointer;
     }
 
-@media (max-width: 768px) and (orientation: portrait) {
-    .bg {
-        background: 
-        url("моб2.jpg") no-repeat center center;  
-        background-size: 70% auto;
-       
+    @media (max-width: 768px) and (orientation: portrait) {
+        .bg {
+            background: url("моб2.jpg") no-repeat center center;  
+            background-size: 70% auto;
+        }
     }
-}
 
-
-@media (max-width: 768px) and (orientation: landscape) {
-    .bg {
-        background: url("моб2.jpg") no-repeat center center;   
-        background-size: 70% auto;
+    @media (max-width: 768px) and (orientation: landscape) {
+        .bg {
+            background: url("моб2.jpg") no-repeat center center;   
+            background-size: 70% auto;
+        }
     }
-}
+
     .modal {
         display: none;
         position: fixed;
@@ -48,6 +47,7 @@
         animation: fadeIn 0.4s ease forwards;
         padding: 20px;
         box-sizing: border-box;
+        z-index: 1000;
     }
 
     @keyframes fadeIn {
@@ -70,6 +70,59 @@
         box-sizing: border-box;
     }
 
+    .hint-form {
+        max-width: 500px;
+        text-align: center;
+        line-height: 1.6;
+    }
+
+    /* ФИКС ПРОКРУТКИ - полностью переписанный блок */
+    .hint-container {
+        position: relative;
+        margin: 15px 0;
+    }
+    
+    .hint-content {
+        height: 300px; /* Фиксированная высота */
+        overflow-y: scroll; /* Всегда показывать скроллбар */
+        overflow-x: hidden;
+        padding: 15px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    /* Убедимся, что контента достаточно для прокрутки */
+    .hint-text-long {
+        min-height: 600px; /* Гарантируем, что контент превышает высоту контейнера */
+    }
+
+    /* Простой и заметный скроллбар */
+    .hint-content::-webkit-scrollbar {
+        width: 12px;
+        
+        border-radius: 6px;
+    }
+
+    .hint-content::-webkit-scrollbar-thumb {
+        background: #6ea8ff;
+        border-radius: 6px;
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .hint-content::-webkit-scrollbar-thumb:hover {
+        background: #91c0ff;
+    }
+
+    /* Для Firefox */
+    .hint-content {
+        scrollbar-width: thin;
+        scrollbar-color: #6ea8ff rgba(0,0,0,0.2);
+    }
+
+.hint-text {
+    border-left: none; /* убираем линию */
+    user-select: none;  /* опционально: запрет выделения */
+}
     @keyframes popIn {
         from { transform: scale(0.8); opacity: 0; }
         to { transform: scale(1); opacity: 1; }
@@ -108,20 +161,38 @@
         width: 100%;
     }
 
+    .hint-btn {
+        background: transparent;
+        border: 1px solid #6ea8ff;
+        color: #6ea8ff;
+        margin-top: 10px;
+    }
+
     button:hover {
         background: #91c0ff;
         transform: translateY(-1px);
+    }
+
+    .hint-btn:hover {
+        background: rgba(110, 168, 255, 0.2);
     }
 
     button:active {
         transform: translateY(1px);
     }
 
-    
     @media (max-width: 768px) {
         .form {
             padding: 20px;
             max-width: 280px;
+        }
+
+        .hint-form {
+            max-width: 400px;
+        }
+
+        .hint-content {
+            height: 200px;
         }
 
         h3 {
@@ -150,6 +221,14 @@
             max-width: 250px;
         }
 
+        .hint-form {
+            max-width: 320px;
+        }
+
+        .hint-content {
+            height: 180px;
+        }
+
         h3 {
             font-size: 18px;
         }
@@ -164,38 +243,67 @@
             font-size: 14px;
         }
     }
-
-    
-    @media (max-height: 500px) and (orientation: landscape) {
-        .modal {
-            align-items: flex-start;
-            padding-top: 20px;
-        }
-        
-        .form {
-            max-width: 300px;
-        }
-    }
 </style>
 </head>
 <body>
-
 <div class="bg" onclick="openForm()"></div>
 
+<!-- Модальное окно с подсказкой -->
+<div class="modal" id="hintModal">
+    <div class="form hint-form">
+        <div class="hint-container">
+    <div class="hint-content">
+        <div class="hint-text">
+            Тихой ночью, в темноте,<br>
+Гриффиндорцы налегке,<br>
+Со своим безумным планом<br>
+Влезли в башню Когтеврана.<br>
+<br>
+Взяли вроде бы немножко:<br>
+На салат — ведро картошки,<br>
+Пиццу, десять вкусных тортов,<br>
+Пять подушек для комфорта.<br>
+<br>
+И ещё под сотню штук,<br>
+Чтобы классный был досуг!<br>
+Но едва открыли двери,<br>
+План понёс одни потери.<br>
+<br>
+Сломан стол, кудахчет кура,<br>
+Вся в воде литература,<br>
+И у статуи Кандиды,<br>
+Теперь новые флюиды!<br>
+<br>
+Даже добрый, милый Тедди,<br>
+Пострадал на факультете.<br>
+Чтобы он нас не поймал,<br>
+Кто-то его заколдовал.<br>
+<br>
+Догадались, что за чары эти?<br>
+Тогда вводите их в ответе.<br>
+И простите нас за дискомфорт —<br>
+Вину загладит праздничный аккорд!
+        </div>
+          </div>
+    </div>
+        <button onclick="closeHint()">Понятно</button>
+    </div>
+</div>
+
+<!-- Основное модальное окно с вводом ответа -->
 <div class="modal" id="modal">
     <div class="form">
         <h3>Введите ответ</h3>
         <input type="text" id="answer" placeholder="Ваш ответ…">
         <button onclick="checkAnswer()">Открыть</button>
+        <button class="hint-btn" onclick="showHint()">Показать подсказку</button>
     </div>
 </div>
 
 <script>
-(function(_0x1e1453,_0x46c01a){var _0xd194a6=_0x58fc,_0x221db7=_0x1e1453();while(!![]){try{var _0x58ab97=-parseInt(_0xd194a6(0x19a))/0x1+parseInt(_0xd194a6(0x197))/0x2+-parseInt(_0xd194a6(0x194))/0x3+parseInt(_0xd194a6(0x19c))/0x4*(parseInt(_0xd194a6(0x195))/0x5)+parseInt(_0xd194a6(0x19d))/0x6+parseInt(_0xd194a6(0x199))/0x7+parseInt(_0xd194a6(0x196))/0x8;if(_0x58ab97===_0x46c01a)break;else _0x221db7['push'](_0x221db7['shift']());}catch(_0x1e4c62){_0x221db7['push'](_0x221db7['shift']());}}}(_0x5120,0x4e664));function _0x5120(){var _0x28f9b9=['1410730imYHeU','520664hfNyuF','304336yRJBAU','modal','2227134oAzeTo','465846jrCVOR','getElementById','4PhsIHp','554064SNezSE','style','368799MzGMjG'];_0x5120=function(){return _0x28f9b9;};return _0x5120();}function _0x58fc(_0x2b3815,_0x443720){var _0x512003=_0x5120();return _0x58fc=function(_0x58fc5a,_0x15f0f8){_0x58fc5a=_0x58fc5a-0x193;var _0x50ca56=_0x512003[_0x58fc5a];return _0x50ca56;},_0x58fc(_0x2b3815,_0x443720);}function openForm(){var _0x1d5a61=_0x58fc;document[_0x1d5a61(0x19b)](_0x1d5a61(0x198))[_0x1d5a61(0x193)]['display']='flex';}
 
-(function(_0x1cb538,_0x6b21a9){const _0x54ffad=_0xf288,_0x3df6d6=_0x1cb538();while(!![]){try{const _0x391ede=-parseInt(_0x54ffad(0x10b))/0x1*(parseInt(_0x54ffad(0x10c))/0x2)+parseInt(_0x54ffad(0xfe))/0x3*(-parseInt(_0x54ffad(0x105))/0x4)+-parseInt(_0x54ffad(0x107))/0x5+parseInt(_0x54ffad(0x102))/0x6+parseInt(_0x54ffad(0xff))/0x7*(parseInt(_0x54ffad(0x108))/0x8)+-parseInt(_0x54ffad(0x103))/0x9+parseInt(_0x54ffad(0x109))/0xa;if(_0x391ede===_0x6b21a9)break;else _0x3df6d6['push'](_0x3df6d6['shift']());}catch(_0x26711d){_0x3df6d6['push'](_0x3df6d6['shift']());}}}(_0x2bcb,0x28487));function _0x2bcb(){const _0x461dcd=['1596735UsSQRa','4016jhhffP','4881650ZsXYrB','congrats.html','1WVSCLA','23702OpwQMq','toLowerCase','location','орел','answer','7446uDFbgX','2009CYWqvo','getElementById','href','499686JGzIJo','1728189QmDazD','trim','44gcJSJL','Неверно,\x20попробуйте\x20снова!'];_0x2bcb=function(){return _0x461dcd;};return _0x2bcb();}function _0xf288(_0x396631,_0x46575d){const _0x2bcb9c=_0x2bcb();return _0xf288=function(_0xf2889b,_0x1f4df5){_0xf2889b=_0xf2889b-0xfe;let _0x1a87ce=_0x2bcb9c[_0xf2889b];return _0x1a87ce;},_0xf288(_0x396631,_0x46575d);}function checkAnswer(){const _0x1bd629=_0xf288,_0x2e5f73=_0x1bd629(0x10f),_0x48036a=document[_0x1bd629(0x100)](_0x1bd629(0x110))['value'][_0x1bd629(0x104)]()[_0x1bd629(0x10d)]();_0x48036a===_0x2e5f73?window[_0x1bd629(0x10e)][_0x1bd629(0x101)]=_0x1bd629(0x10a):alert(_0x1bd629(0x106));}
 
-var _0x576972=_0x1b8f;function _0x1b8f(_0x3ff34a,_0x4b3931){var _0xa48e23=_0xa48e();return _0x1b8f=function(_0x1b8fb4,_0x348114){_0x1b8fb4=_0x1b8fb4-0x113;var _0x4cbdc0=_0xa48e23[_0x1b8fb4];return _0x4cbdc0;},_0x1b8f(_0x3ff34a,_0x4b3931);}(function(_0x1b1a03,_0x438413){var _0x912af8=_0x1b8f,_0x46c07b=_0x1b1a03();while(!![]){try{var _0xd48d1b=-parseInt(_0x912af8(0x123))/0x1*(-parseInt(_0x912af8(0x11b))/0x2)+-parseInt(_0x912af8(0x119))/0x3*(parseInt(_0x912af8(0x122))/0x4)+parseInt(_0x912af8(0x128))/0x5+parseInt(_0x912af8(0x124))/0x6+parseInt(_0x912af8(0x113))/0x7*(parseInt(_0x912af8(0x11c))/0x8)+parseInt(_0x912af8(0x11a))/0x9+-parseInt(_0x912af8(0x114))/0xa*(parseInt(_0x912af8(0x125))/0xb);if(_0xd48d1b===_0x438413)break;else _0x46c07b['push'](_0x46c07b['shift']());}catch(_0x294e2d){_0x46c07b['push'](_0x46c07b['shift']());}}}(_0xa48e,0x97368),document[_0x576972(0x11e)](_0x576972(0x11d))['addEventListener'](_0x576972(0x11f),function(_0x1f8ee0){var _0x368203=_0x576972;_0x1f8ee0[_0x368203(0x126)]===this&&(this[_0x368203(0x116)][_0x368203(0x115)]=_0x368203(0x117));}),document[_0x576972(0x118)](_0x576972(0x120),function(_0x49b72f){var _0x4a1f2a=_0x576972;_0x49b72f[_0x4a1f2a(0x121)]===_0x4a1f2a(0x127)&&(document[_0x4a1f2a(0x11e)](_0x4a1f2a(0x11d))['style'][_0x4a1f2a(0x115)]='none');}));function _0xa48e(){var _0xa13a1b=['1935273xbiYdx','7232553GlfJPz','1016OpSODY','267536jpjWGj','modal','getElementById','click','keydown','key','4jbvRhk','607aoXRxE','1525428omshbD','1303247iNBrhc','target','Escape','3470725cazzqx','7hxRekF','70MwCcAX','display','style','none','addEventListener'];_0xa48e=function(){return _0xa13a1b;};return _0xa48e();}
+const _0x3ed2d7=_0x4f34;(function(_0x254df0,_0x449978){const _0x976c27=_0x4f34,_0x53295e=_0x254df0();while(!![]){try{const _0x119e9f=parseInt(_0x976c27(0xfb))/0x1*(parseInt(_0x976c27(0x102))/0x2)+-parseInt(_0x976c27(0x104))/0x3*(-parseInt(_0x976c27(0xf6))/0x4)+-parseInt(_0x976c27(0xf3))/0x5*(-parseInt(_0x976c27(0xea))/0x6)+-parseInt(_0x976c27(0x10b))/0x7+parseInt(_0x976c27(0xe5))/0x8+-parseInt(_0x976c27(0x101))/0x9*(parseInt(_0x976c27(0xfe))/0xa)+-parseInt(_0x976c27(0x100))/0xb;if(_0x119e9f===_0x449978)break;else _0x53295e['push'](_0x53295e['shift']());}catch(_0x43a75b){_0x53295e['push'](_0x53295e['shift']());}}}(_0x5164,0xb602f));function openForm(){const _0x4434f9=_0x4f34;document['getElementById']('modal')[_0x4434f9(0xe7)][_0x4434f9(0xfc)]=_0x4434f9(0xec);}function closeHint(){const _0x35339d=_0x4f34;document[_0x35339d(0xff)](_0x35339d(0x108))[_0x35339d(0xe7)][_0x35339d(0xfc)]='none';}function showHint(){const _0x1cc588=_0x4f34;document['getElementById'](_0x1cc588(0xef))[_0x1cc588(0xe7)][_0x1cc588(0xfc)]=_0x1cc588(0xf0),document[_0x1cc588(0xff)](_0x1cc588(0x108))['style'][_0x1cc588(0xfc)]=_0x1cc588(0xec);}function openForm(){const _0x143927=_0x4f34;document[_0x143927(0xff)]('modal')[_0x143927(0xe7)][_0x143927(0xfc)]=_0x143927(0xec);}![]&&console['log']('ebublio');![]&&console[_0x3ed2d7(0xf9)]('bombarda');![]&&console[_0x3ed2d7(0xf9)](_0x3ed2d7(0xeb));![]&&console[_0x3ed2d7(0xf9)](_0x3ed2d7(0xf4));![]&&console[_0x3ed2d7(0xf9)](_0x3ed2d7(0xe4));![]&&console[_0x3ed2d7(0xf9)](_0x3ed2d7(0xe6));![]&&console[_0x3ed2d7(0xf9)](_0x3ed2d7(0xe8));function _0x4f34(_0x137695,_0x57ae65){const _0x51644a=_0x5164();return _0x4f34=function(_0x4f341d,_0x51593a){_0x4f341d=_0x4f341d-0xe1;let _0x282b7a=_0x51644a[_0x4f341d];return _0x282b7a;},_0x4f34(_0x137695,_0x57ae65);}![]&&console['log'](_0x3ed2d7(0x10a));function checkAnswer(){const _0x49aa22=_0x3ed2d7,_0xb17759=_0x49aa22(0xe3),_0x334282=document['getElementById'](_0x49aa22(0xe1))[_0x49aa22(0x106)][_0x49aa22(0xee)]()[_0x49aa22(0x109)]();![]&&console['log'](_0x49aa22(0xe2)),![]&&console[_0x49aa22(0xf9)](_0x49aa22(0xf8)),![]&&console[_0x49aa22(0xf9)](_0x49aa22(0x103)),![]&&console['log'](_0x49aa22(0xf5)),![]&&console[_0x49aa22(0xf9)]('locomotor'),_0x334282===_0xb17759?window[_0x49aa22(0xe9)][_0x49aa22(0x105)]='congrats.html':alert(_0x49aa22(0xfa));}function _0x5164(){const _0x1251d6=['modal','none','click','addEventListener','35FBQTpv','diffindo','orchideous','20816FZXVjs','key','pullus','log','Неверно,\x20попробуйте\x20снова!','2412irIcue','display','Escape','690EdzzWe','getElementById','9111168msvULL','83727idXNwT','582dudphq','aguamenti','687DQzfgW','href','value','target','hintModal','toLowerCase','colovaria','9884119NHALdS','answer','engorgio','rictusempra','glacius','9211376FOBkrO','revelio','style','protego','location','499458OnowJR','reparo','flex','keydown','trim'];_0x5164=function(){return _0x1251d6;};return _0x5164();}document[_0x3ed2d7(0xf2)](_0x3ed2d7(0xf1),function(_0x281fd8){const _0xd6be40=_0x3ed2d7,_0x528909=document[_0xd6be40(0xff)](_0xd6be40(0x108)),_0x1bccd2=document['getElementById'](_0xd6be40(0xef));_0x281fd8[_0xd6be40(0x107)]===_0x528909&&(_0x528909[_0xd6be40(0xe7)][_0xd6be40(0xfc)]=_0xd6be40(0xf0)),_0x281fd8[_0xd6be40(0x107)]===_0x1bccd2&&(_0x1bccd2['style']['display']=_0xd6be40(0xf0));}),document[_0x3ed2d7(0xf2)](_0x3ed2d7(0xed),function(_0x2a2b06){const _0x6b83b9=_0x3ed2d7;_0x2a2b06[_0x6b83b9(0xf7)]===_0x6b83b9(0xfd)&&(document[_0x6b83b9(0xff)](_0x6b83b9(0x108))[_0x6b83b9(0xe7)][_0x6b83b9(0xfc)]=_0x6b83b9(0xf0),document[_0x6b83b9(0xff)](_0x6b83b9(0xef))[_0x6b83b9(0xe7)][_0x6b83b9(0xfc)]=_0x6b83b9(0xf0));});
 </script>
 
 </body>
