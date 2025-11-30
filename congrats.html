@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Поздравляем!</title>
+
 <style>
     body {
         background: #01386f;
@@ -12,37 +13,93 @@
         padding-top: 5%;
         font-size: 32px;
     }
+
     .paragraph {
-  margin: 5% 10%; 
-  padding: 15px;
-  text-align: justify;
-  
-  
-}
+        margin: 5% 10%;
+        padding: 15px;
+        text-align: justify;
+    }
+
+    
+    .switcher {
+        margin: 20px auto;
+        z-index: 9999;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .switcher button {
+        padding: 12px 22px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: #6ea8ff;
+        color: #003277;
+        font-weight: 600;
+        transition: 0.2s;
+        min-width: 120px;
+    }
+
+    .switcher button:hover {
+        background: #91c0ff;
+        transform: translateY(-1px);
+    }
+
+    .switcher button:active {
+        transform: translateY(1px);
+    }
+
+    
+    .player {
+        display: none;
+    }
+    .player.active {
+        display: block;
+    }
 </style>
+
 </head>
 <body>
-     <p class="paragraph">Поздравляем!  </p>
+
+<p class="paragraph">Поздравляем!  </p>
      <p class="paragraph">Любовь к музыке объединяла когтевранцев и гриффиндорцев во все времена, и караоке стало своеобразным символом и нашей любви к песням, и друг к другу. Песни переживали поколения, передавались от старших к младшим — и в этой традиции было что-то почти семейное. 
 <br>
 Когда-то в репертуаре выпускников была песня, что стала негласным гимном нашей когтевранско-гриффиндорской дружбы. Поколения постарше ее помнят, но младшие курсы вряд ли могли спеть ее так просто без повода. 
 <br>
 Именно поэтому сегодня мы возвращаем эту песню в наш общий караоке-зал — обновленную, но узнаваемую. Потому что преемственность — это когда голоса и лица меняются, но ценности остаются. И пусть сегодня ценность нашей дружбы звучит громче </p>
-     <div class="responsive-video">
-  <video controls style="width: 100%; max-width: 80%;">
-    <source src="https://dl.dropboxusercontent.com/scl/fi/bq9pmlc0n35caoyk02oia/kog-3.mp4?rlkey=sf86zi46lytxcaz49aznq438i&st=bhd5p4ur&dl=1" type="video/mp4">
-    Ваш браузер не поддерживает видео.
-  </video>
+
+<div class="switcher">
+    
+    <button onclick="showPlayer('mp4')">MP4</button>
+    <button onclick="showPlayer('vimeo')">Vimeo</button>
+</div>
+
+<div id="mp4" class="player active">
+    <video controls style="width: 100%; max-width: 80%;">
+        <source src="https://dl.dropboxusercontent.com/scl/fi/bq9pmlc0n35caoyk02oia/kog-3.mp4?rlkey=sf86zi46lytxcaz49aznq438i&st=bhd5p4ur&dl=0" type="video/mp4">
+    </video>
+</div>
+
+<div id="vimeo" class="player">
+    <div style="padding:56.25% 0 0 0;position:relative;">
+        <iframe src="https://player.vimeo.com/video/1141833789?badge=0&autopause=0"
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                style="position:absolute; top:0; left:10%; width:80%; height:80%;"></iframe>
+    </div>
 </div>
 
 
+<script>
+function showPlayer(id) {
+    document.querySelectorAll('.player').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+</script>
 
-    </body>
+</body>
 </html>
-
-
-
-
-
-
 
